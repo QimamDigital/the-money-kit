@@ -1,0 +1,1592 @@
+This is a single, combined HTML file that brings together all four pages (Home, Learn, My Projects, Sign In) into one
+unified document. You can save it as `index.html` and open it in your browser.
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Money Kit · Save, Spend, Invest</title>
+    <style>
+        /* ---------- GLOBAL & NAV (shared) ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .dashboard {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 15px 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            font-size: 24px;
+            background: white;
+            padding: 8px;
+            border-radius: 50%;
+            color: #667eea;
+        }
+
+        .logo-text {
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .nav-link.active {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .profile-pic {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            border: 2px solid white;
+        }
+
+        .mobile-menu {
+            display: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* ---------- PAGE CONTAINERS ---------- */
+        .page-container {
+            display: none;
+        }
+
+        .page-container.active-page {
+            display: block;
+        }
+
+        /* ---------- HOME PAGE STYLES (merged) ---------- */
+        .hero {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: #f5576c;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .features {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 2.5rem;
+            color: #333;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-icon {
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .save {
+            border-top: 5px solid #4CAF50;
+        }
+
+        .spend {
+            border-top: 5px solid #FF9800;
+        }
+
+        .invest {
+            border-top: 5px solid #2196F3;
+        }
+
+        .how-it-works {
+            background: #f0f4f8;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .steps {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .step {
+            flex: 1;
+            min-width: 250px;
+            max-width: 300px;
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            line-height: 50px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .testimonials {
+            padding: 80px 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 50px;
+        }
+
+        /* ---------- LEARN PAGE (game cards, modals) ---------- */
+        .learn-hero {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .learn-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .game-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .game-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .game-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .game-content {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .game-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            overflow-y: auto;
+        }
+
+        .game-modal-content {
+            background: white;
+            margin: 20px auto;
+            border-radius: 20px;
+            max-width: 95%;
+            max-height: 95vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalAppear 0.3s ease;
+        }
+
+        @keyframes modalAppear {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .game-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .close-game-modal {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .game-modal-body {
+            padding: 30px;
+        }
+
+        .tree-game-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .tree-garden {
+            background: linear-gradient(135deg, #87CEEB 0%, #98FB98 100%);
+            border-radius: 15px;
+            padding: 20px;
+            min-height: 500px;
+            border: 3px solid #6B8E23;
+        }
+
+        .garden-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .garden-plot {
+            aspect-ratio: 1;
+            background: rgba(139, 69, 19, 0.3);
+            border: 2px dashed #8B4513;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .garden-plot.occupied {
+            border-style: solid;
+            background: rgba(139, 69, 19, 0.1);
+        }
+
+        .tree-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .tree-stats {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px;
+            background: white;
+            border-radius: 5px;
+            margin-bottom: 8px;
+        }
+
+        .tree-types {
+            display: grid;
+            gap: 10px;
+        }
+
+        .tree-type {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            background: white;
+        }
+
+        .tree-type.selected {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .tree-cost {
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .tree-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .tree-action-btn {
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .wait-month {
+            background: #e0f7fa;
+            color: #00796b;
+            border: 2px solid #00796b;
+        }
+
+        .wait-year {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border: 2px solid #2e7d32;
+        }
+
+        .sell-tree {
+            background: #ffebee;
+            color: #c62828;
+            border: 2px solid #c62828;
+        }
+
+        .reset-game {
+            background: #fff3e0;
+            color: #ef6c00;
+            border: 2px solid #ef6c00;
+            grid-column: 1/-1;
+        }
+
+        .calculator {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .input-group input,
+        .input-group select {
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+        }
+
+        .time-options {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .time-option {
+            padding: 10px;
+            text-align: center;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            background: white;
+        }
+
+        .time-option.selected {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .calc-button,
+        .check-button,
+        .reset-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .reset-button {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+        }
+
+        .sorting-game {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .category-box {
+            border: 3px dashed #ccc;
+            border-radius: 15px;
+            padding: 20px;
+            min-height: 300px;
+            background: #f8f9fa;
+        }
+
+        .draggable-items {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .draggable {
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 25px;
+            cursor: grab;
+            text-align: center;
+        }
+
+        .draggable.correct {
+            background: #4CAF50;
+        }
+
+        .draggable.incorrect {
+            background: #f44336;
+        }
+
+        /* ---------- PROJECTS PAGE ---------- */
+        .projects-header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .projects-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .projects-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .add-project-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+        }
+
+        .filter-options {
+            display: flex;
+            gap: 15px;
+            background: white;
+            padding: 8px;
+            border-radius: 30px;
+        }
+
+        .filter-btn {
+            background: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .filter-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .project-category {
+            background: #f0f4f8;
+            padding: 4px 12px;
+            border-radius: 15px;
+            color: #667eea;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            border-radius: 5px;
+        }
+
+        .project-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .edit-btn {
+            background: #f0f4f8;
+        }
+
+        .delete-btn {
+            background: #ffe0e0;
+            color: #e53e3e;
+        }
+
+        .ai-assistant {
+            margin-top: 60px;
+            background: white;
+            border-radius: 15px;
+        }
+
+        .ai-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .ai-chat {
+            padding: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            padding: 12px;
+            border-radius: 10px;
+            max-width: 80%;
+        }
+
+        .ai-message {
+            background: #f0f4f8;
+        }
+
+        .user-message {
+            background: #667eea;
+            color: white;
+            margin-left: auto;
+        }
+
+        .ai-input-area {
+            display: flex;
+            padding: 15px;
+            gap: 10px;
+        }
+
+        .ai-input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+        }
+
+        .ai-send {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+        }
+
+        .notification {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            z-index: 1500;
+            transform: translateX(400px);
+            transition: 0.3s;
+            max-width: 350px;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        /* ---------- SIGN IN PAGE ---------- */
+        .auth-hero {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            color: #333;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .auth-container {
+            max-width: 500px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 15px;
+            background: white;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .auth-tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .auth-form {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+        }
+
+        .password-container {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .auth-button {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .divider::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #e0e0e0;
+        }
+
+        .divider span {
+            background: white;
+            padding: 0 15px;
+            color: #666;
+        }
+
+        .social-login {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-button {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+        }
+
+        /* ---------- CONTACT MODAL (shared) ---------- */
+        .contact-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .contact-email {
+            font-size: 18px;
+            color: #667eea;
+            margin: 20px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .close-modal {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        /* ---------- RESPONSIVE ---------- */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: #667eea;
+                flex-direction: column;
+                padding: 20px;
+                gap: 15px;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .tree-game-container {
+                grid-template-columns: 1fr;
+            }
+
+            .garden-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .sorting-game {
+                grid-template-columns: 1fr;
+            }
+
+            .draggable-items {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVIGATION (shared) -->
+    <nav class="dashboard">
+        <div class="nav-container">
+            <div class="logo">
+                <div class="logo-icon">💰</div>
+                <div class="logo-text">The Money Kit</div>
+            </div>
+            <div class="mobile-menu" onclick="document.querySelector('.nav-links').classList.toggle('active')">☰</div>
+            <div class="nav-links">
+                <a class="nav-link" onclick="switchPage('home')">Home</a>
+                <a class="nav-link" onclick="switchPage('projects')">My Projects</a>
+                <a class="nav-link" onclick="switchPage('learn')">Learn</a>
+                <a class="nav-link" onclick="switchPage('signin')">Sign In</a>
+                <a class="nav-link" onclick="showContact()">Contact Us</a>
+                <div class="user-profile">
+                    <div class="profile-pic">U</div>
+                    <span>User</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========== PAGE: HOME ========== -->
+    <div id="page-home" class="page-container active-page">
+        <section class="hero">
+            <h1>Welcome to The Money Kit!</h1>
+            <p>Your fun and easy toolkit for learning how to save, spend, and invest money wisely. Start your financial
+                adventure today!</p>
+            <a class="cta-button" onclick="switchPage('signin')">Get Started Now</a>
+        </section>
+        <section class="features">
+            <h2 class="section-title">Your Money Toolkit</h2>
+            <div class="features-grid">
+                <div class="feature-card save">
+                    <div class="feature-icon">💾</div>
+                    <h3>Save</h3>
+                    <p>Learn how to put money aside for your future goals.</p>
+                </div>
+                <div class="feature-card spend">
+                    <div class="feature-icon">🛍️</div>
+                    <h3>Spend</h3>
+                    <p>Discover smart ways to use your money for things you need.</p>
+                </div>
+                <div class="feature-card invest">
+                    <div class="feature-icon">📈</div>
+                    <h3>Invest</h3>
+                    <p>Find out how to make your money grow over time.</p>
+                </div>
+            </div>
+        </section>
+        <section class="how-it-works">
+            <h2 class="section-title">How It Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Create Your Account</h3>
+                    <p>Sign up and set up your personal money profile</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Set Your Goals</h3>
+                    <p>Tell us what you're saving for and we'll help you plan</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Track & Learn</h3>
+                    <p>Watch your money grow and learn smart money habits</p>
+                </div>
+            </div>
+        </section>
+        <section class="testimonials">
+            <h2 class="section-title">What Kids Are Saying</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial">
+                    <p class="testimonial-text">"I saved up for a new skateboard using The Money Kit!"</p>
+                    <p class="testimonial-author">- Alex, 11</p>
+                </div>
+                <div class="testimonial">
+                    <p class="testimonial-text">"I learned that investing is like growing a money plant."</p>
+                    <p class="testimonial-author">- Sophia, 9</p>
+                </div>
+                <div class="testimonial">
+                    <p class="testimonial-text">"The Money Kit helped me split my allowance."</p>
+                    <p class="testimonial-author">- Liam, 10</p>
+                </div>
+            </div>
+        </section>
+        <footer>
+            <p>&copy; 2026 The Money Kit. All rights reserved.</p>
+            <p>Teaching kids smart money habits.</p>
+        </footer>
+    </div>
+
+    <!-- ========== PAGE: LEARN ========== -->
+    <div id="page-learn" class="page-container">
+        <section class="learn-hero">
+            <h1>Money Learning Games</h1>
+            <p>Click on any game to learn about saving, spending, and investing!</p>
+        </section>
+        <div class="games-grid">
+            <div class="game-card" onclick="openGame('savingGame')">
+                <div class="game-image"
+                    style="background-image:url('https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1000&auto=format')">
+                    <div class="game-overlay">💰 Savings Calculator</div>
+                </div>
+                <div class="game-content">
+                    <h3>Smart Savings</h3>
+                    <p>Calculate how long to reach your goals</p>
+                </div>
+            </div>
+            <div class="game-card" onclick="openGame('spendingGame')">
+                <div class="game-image"
+                    style="background-image:url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1000&auto=format')">
+                    <div class="game-overlay">🛍️ Needs vs Wants</div>
+                </div>
+                <div class="game-content">
+                    <h3>Smart Spending</h3>
+                    <p>Distinguish needs from wants</p>
+                </div>
+            </div>
+            <div class="game-card" onclick="openGame('investingGame')">
+                <div class="game-image"
+                    style="background-image:url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1000&auto=format')">
+                    <div class="game-overlay">🌳 Money Garden</div>
+                </div>
+                <div class="game-content">
+                    <h3>Smart Investing</h3>
+                    <p>Grow your money garden</p>
+                </div>
+            </div>
+        </div>
+        <!-- Game Modals (Learn) -->
+        <div id="savingGame" class="game-modal">
+            <div class="game-modal-content">
+                <div class="game-modal-header">
+                    <div class="game-modal-title">💰 Smart Savings Calculator</div><button class="close-game-modal"
+                        onclick="closeGame('savingGame')">×</button>
+                </div>
+                <div class="game-modal-body">
+                    <div class="calculator">
+                        <div class="input-group"><label>What do you want to save for?</label><input type="text"
+                                id="learnGoalName" value="New Bicycle"></div>
+                        <div class="input-group"><label>Goal Amount ($)</label><input type="number" id="learnGoalAmount"
+                                value="200"></div>
+                        <div class="input-group"><label>How much can you save?</label><input type="number"
+                                id="learnSaveAmount" value="20">
+                            <div class="time-options">
+                                <div class="time-option" data-time="day" onclick="selectLearnTime(this)">Per Day</div>
+                                <div class="time-option" data-time="week" onclick="selectLearnTime(this)">Per Week</div>
+                                <div class="time-option selected" data-time="month" onclick="selectLearnTime(this)">Per
+                                    Month</div>
+                                <div class="time-option" data-time="year" onclick="selectLearnTime(this)">Per Year</div>
+                            </div><input type="hidden" id="learnTimeUnit" value="month">
+                        </div><button class="calc-button" onclick="calculateLearnSavings()">Calculate!</button>
+                        <div id="learnSavingsResult" class="result"></div><button class="reset-button"
+                            onclick="resetLearnSaving()">Reset</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="spendingGame" class="game-modal">
+            <div class="game-modal-content">
+                <div class="game-modal-header">
+                    <div class="game-modal-title">🛍️ Needs vs Wants</div><button class="close-game-modal"
+                        onclick="closeGame('spendingGame')">×</button>
+                </div>
+                <div class="game-modal-body">
+                    <div class="sorting-game-container">
+                        <p style="text-align:center">Drag items to correct category!</p>
+                        <div class="sorting-game">
+                            <div class="category-box" ondrop="drop(event)" ondragover="allowDrop(event)"
+                                id="needsCategory">
+                                <h4>Needs ✅</h4>
+                                <div id="needsBox" class="item-box"></div>
+                            </div>
+                            <div class="category-box" ondrop="drop(event)" ondragover="allowDrop(event)"
+                                id="wantsCategory">
+                                <h4>Wants ❤️</h4>
+                                <div id="wantsBox" class="item-box"></div>
+                            </div>
+                        </div>
+                        <div class="draggable-items" id="draggableContainer"></div>
+                        <div class="game-buttons"><button class="check-button"
+                                onclick="checkSorting()">Check</button><button class="reset-button"
+                                onclick="resetSpendingGame()">Reset</button></div>
+                        <div id="sortingResult" class="result"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="investingGame" class="game-modal">
+            <div class="game-modal-content">
+                <div class="game-modal-header">
+                    <div class="game-modal-title">🌳 Money Garden</div><button class="close-game-modal"
+                        onclick="closeGame('investingGame')">×</button>
+                </div>
+                <div class="game-modal-body">
+                    <div class="tree-game-container">
+                        <div class="tree-garden">
+                            <div class="sun">☀️</div>
+                            <h3 style="text-align:center">Your Investment Garden</h3>
+                            <div class="garden-grid" id="gardenGrid"></div>
+                        </div>
+                        <div class="tree-controls">
+                            <div class="tree-stats">
+                                <h3>💰 Garden Bank</h3>
+                                <div class="stat-item"><span>Available:</span><span>$<span
+                                            id="treeMoney">100</span></span></div>
+                                <div class="stat-item"><span>Trees:</span><span id="totalTrees">0</span></div>
+                                <div class="stat-item"><span>Monthly income:</span><span>$<span
+                                            id="monthlyIncome">0</span></span></div>
+                            </div>
+                            <div class="tree-types">
+                                <h3>🌱 Plant</h3>
+                                <div class="tree-type" data-type="apple" data-cost="10" onclick="selectTreeType(this)">
+                                    <span>🍎 Apple</span><span class="tree-cost">$10</span>
+                                </div>
+                                <div class="tree-type" data-type="orange" data-cost="25" onclick="selectTreeType(this)">
+                                    <span>🍊 Orange</span><span class="tree-cost">$25</span>
+                                </div>
+                                <div class="tree-type" data-type="money" data-cost="50" onclick="selectTreeType(this)">
+                                    <span>💰 Money</span><span class="tree-cost">$50</span>
+                                </div>
+                            </div>
+                            <div class="tree-actions"><button class="tree-action-btn wait-month"
+                                    onclick="waitOneMonth()">⏳ Wait 1 Month</button><button
+                                    class="tree-action-btn wait-year" onclick="waitOneYear()">📅 Wait 1
+                                    Year</button><button class="tree-action-btn sell-tree"
+                                    onclick="showSellTreeModal()">💰 Sell</button><button
+                                    class="tree-action-btn reset-game" onclick="resetTreeGame()">🔄 Reset</button></div>
+                        </div>
+                    </div>
+                    <div id="sellTreeModal" class="game-modal">
+                        <div class="game-modal-content" style="max-width:500px">
+                            <div class="game-modal-header">
+                                <div>💰 Sell Trees</div><button class="close-game-modal"
+                                    onclick="closeSellTreeModal()">×</button>
+                            </div>
+                            <div class="game-modal-body">
+                                <div id="sellTreeList"></div><button class="close-modal"
+                                    onclick="closeSellTreeModal()">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== PAGE: PROJECTS ========== -->
+    <div id="page-projects" class="page-container">
+        <div class="projects-header">
+            <h1>My Projects</h1>
+            <p>Track your savings goals!</p>
+        </div>
+        <div class="projects-container">
+            <div class="projects-actions"><button class="add-project-btn" onclick="showAddProjectModal()">+ Add New
+                    Project</button>
+                <div class="filter-options"><button class="filter-btn active" data-filter="all">All</button><button
+                        class="filter-btn" data-filter="active">Active</button><button class="filter-btn"
+                        data-filter="completed">Completed</button></div>
+            </div>
+            <div class="projects-grid" id="projectsGrid"></div>
+            <div class="empty-state" id="emptyState" style="text-align:center;padding:40px">
+                <div class="empty-icon">📁</div>
+                <h3>No projects yet</h3><button class="add-project-btn" onclick="showAddProjectModal()">Create First
+                    Project</button>
+            </div>
+            <div class="ai-assistant">
+                <div class="ai-header">
+                    <div class="ai-icon">🤖</div>
+                    <div class="ai-title">Money Expert Assistant</div>
+                </div>
+                <div class="ai-chat" id="aiChat">
+                    <div class="message ai-message">Hi! I'm your Money Assistant. Ask me anything!</div>
+                </div>
+                <div class="ai-input-area"><input type="text" class="ai-input" id="aiInput"
+                        placeholder="Ask about projects..."><button class="ai-send"
+                        onclick="sendAIMessage()">Send</button></div>
+            </div>
+        </div>
+        <!-- Project Modals -->
+        <div id="addProjectModal" class="game-modal">
+            <div class="game-modal-content" style="max-width:500px">
+                <div class="game-modal-header">
+                    <h2>Add Project</h2><button class="close-game-modal" onclick="closeAddProjectModal()">×</button>
+                </div>
+                <div class="game-modal-body">
+                    <form id="projectForm">
+                        <div class="form-group"><label>Name</label><input type="text" id="projectNameInput"
+                                class="form-input" required></div>
+                        <div class="form-group"><label>Description</label><input type="text" id="projectDescInput"
+                                class="form-input"></div>
+                        <div class="form-group"><label>Category</label>
+                            <div class="category-options">
+                                <div class="category-option" data-category="SAVING"
+                                    onclick="selectProjectCategory(this)">💾 Saving</div>
+                                <div class="category-option" data-category="SPENDING"
+                                    onclick="selectProjectCategory(this)">🛍️ Spending</div>
+                                <div class="category-option" data-category="INVESTING"
+                                    onclick="selectProjectCategory(this)">📈 Investing</div>
+                            </div><input type="hidden" id="projectCategoryInput">
+                        </div>
+                        <div class="form-group"><label>Goal ($)</label><input type="number" id="projectGoalAmount"
+                                class="form-input" required></div>
+                        <div class="form-group"><label>Already Saved ($)</label><input type="number"
+                                id="projectSavedAmount" class="form-input" value="0"></div>
+                        <div class="form-actions"><button type="button"
+                                onclick="closeAddProjectModal()">Cancel</button><button type="submit" class="save-btn"
+                                style="background:#667eea;color:white;border:none;padding:10px 20px;border-radius:8px;">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div id="editProjectModal" class="game-modal">
+            <div class="game-modal-content" style="max-width:500px">
+                <div class="game-modal-header">
+                    <h2>Edit Project</h2><button class="close-game-modal" onclick="closeEditProjectModal()">×</button>
+                </div>
+                <div class="game-modal-body">
+                    <form id="editProjectForm"><input type="hidden" id="editProjectId">
+                        <div class="form-group"><label>Name</label><input type="text" id="editProjectNameInput"
+                                class="form-input"></div>
+                        <div class="form-group"><label>Goal ($)</label><input type="number" id="editGoalAmount"
+                                class="form-input"></div>
+                        <div class="form-group"><label>Saved ($)</label><input type="number" id="editSavedAmount"
+                                class="form-input"></div>
+                        <div class="form-group"><label>Adjust</label>
+                            <div style="display:flex;gap:5px"><input type="number" id="adjustAmount" class="form-input"
+                                    placeholder="Amount"><button type="button"
+                                    onclick="adjustMoney('add')">Add</button><button type="button"
+                                    onclick="adjustMoney('remove')">Remove</button></div>
+                        </div>
+                        <div class="form-actions"><button type="button"
+                                onclick="closeEditProjectModal()">Cancel</button><button type="submit" class="save-btn"
+                                style="background:#667eea;color:white;border:none;padding:10px 20px;">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="notification" id="notification" onclick="showNotificationDetail()">
+            <div class="notification-icon">💡</div>
+            <div class="notification-content">
+                <h4 id="notificationTitle">Tip</h4>
+                <p id="notificationText"></p>
+            </div><button class="close-notification" onclick="event.stopPropagation();closeNotification()">×</button>
+        </div>
+        <div id="notificationModal" class="game-modal">
+            <div class="game-modal-content">
+                <div class="game-modal-header">
+                    <h2 id="notificationModalTitle">Details</h2><button class="close-game-modal"
+                        onclick="closeNotificationModal()">×</button>
+                </div>
+                <div class="game-modal-body" id="notificationModalContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== PAGE: SIGN IN ========== -->
+    <div id="page-signin" class="page-container">
+        <section class="auth-hero">
+            <h1>Join The Money Kit!</h1>
+            <p>Start your journey to becoming a money expert.</p>
+        </section>
+        <div class="auth-container">
+            <div class="auth-tabs"><button class="auth-tab active" id="signin-tab"
+                    onclick="switchAuthTab('signin')">Sign In</button><button class="auth-tab" id="signup-tab"
+                    onclick="switchAuthTab('signup')">Sign Up</button></div>
+            <form class="auth-form" id="signin-form">
+                <div class="form-group"><label>Email/Username</label><input type="text" id="signin-email"
+                        class="form-input"></div>
+                <div class="form-group"><label>Password</label>
+                    <div class="password-container"><input type="password" id="signin-password"
+                            class="form-input"><button type="button" class="toggle-password"
+                            onclick="togglePassword('signin-password')">👁️</button></div>
+                </div>
+                <div class="remember-forgot"><label><input type="checkbox"> Remember me</label><a href="#">Forgot?</a>
+                </div><button type="submit" class="auth-button">Sign In</button>
+                <div class="divider"><span>or</span></div>
+                <div class="social-login"><button type="button" class="social-button">G Google</button><button
+                        type="button" class="social-button">A Apple</button></div>
+                <div class="auth-footer">No account? <a href="#" onclick="switchAuthTab('signup')">Sign up</a></div>
+            </form>
+            <form class="auth-form" id="signup-form" style="display:none">
+                <div class="form-group"><label>Username</label><input type="text" id="signup-username"
+                        class="form-input"></div>
+                <div class="form-group"><label>Email</label><input type="email" id="signup-email" class="form-input">
+                </div>
+                <div class="form-group"><label>Password</label>
+                    <div class="password-container"><input type="password" id="signup-password"
+                            class="form-input"><button type="button" class="toggle-password"
+                            onclick="togglePassword('signup-password')">👁️</button></div>
+                </div>
+                <div class="form-group"><label>Confirm</label><input type="password" id="signup-confirm"
+                        class="form-input"></div>
+                <div class="form-group"><label>Birthdate</label><input type="date" id="birthdate" class="form-input">
+                </div>
+                <div class="form-group"><label><input type="checkbox" required> I agree to Terms</label></div><button
+                    type="submit" class="auth-button">Create Account</button>
+                <div class="auth-footer">Have account? <a href="#" onclick="switchAuthTab('signin')">Sign in</a></div>
+            </form>
+        </div>
+        <section class="kid-friendly-features">
+            <h2 class="features-title">Why Kids Love It</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎮</div>
+                    <h3>Fun & Games</h3>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏆</div>
+                    <h3>Earn Badges</h3>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- CONTACT MODAL (shared) -->
+    <div id="contactModal" class="contact-modal">
+        <div class="modal-content">
+            <h2>Contact Us</h2>
+            <p>📧 husseinaldaoud2010@gmail.com</p><button class="close-modal" onclick="closeContact()">Close</button>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            // ---------- PAGE SWITCHING ----------
+            window.switchPage = function (pageId) {
+                document.querySelectorAll('.page-container').forEach(p => p.classList.remove('active-page'));
+                document.getElementById('page-' + pageId).classList.add('active-page');
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                let activeLink = Array.from(document.querySelectorAll('.nav-link')).find(l => l.textContent.toLowerCase().includes(pageId) || (pageId === 'home' && l.textContent === 'Home') || (pageId === 'projects' && l.textContent.includes('Projects')) || (pageId === 'learn' && l.textContent === 'Learn') || (pageId === 'signin' && l.textContent.includes('Sign')));
+                if (activeLink) activeLink.classList.add('active');
+                if (pageId === 'learn') initLearnDraggables();
+                if (pageId === 'projects') { renderProjects(); updateEmptyState(); }
+                window.scrollTo(0, 0);
+            };
+
+            // ---------- CONTACT MODAL ----------
+            window.showContact = () => document.getElementById('contactModal').style.display = 'flex';
+            window.closeContact = () => document.getElementById('contactModal').style.display = 'none';
+
+            // ---------- LEARN GAMES ----------
+            window.openGame = (id) => { document.getElementById(id).style.display = 'block'; document.body.style.overflow = 'hidden'; if (id === 'investingGame') initializeTreeGame(); };
+            window.closeGame = (id) => { document.getElementById(id).style.display = 'none'; document.body.style.overflow = 'auto'; };
+            // Savings calc
+            window.selectLearnTime = (el) => { document.querySelectorAll('.time-option').forEach(o => o.classList.remove('selected')); el.classList.add('selected'); document.getElementById('learnTimeUnit').value = el.dataset.time; };
+            window.calculateLearnSavings = () => {
+                let goal = +document.getElementById('learnGoalAmount').value, save = +document.getElementById('learnSaveAmount').value;
+                let unit = document.getElementById('learnTimeUnit').value, name = document.getElementById('learnGoalName').value;
+                if (!goal || !save) return;
+                let time = Math.ceil(goal / save);
+                document.getElementById('learnSavingsResult').innerHTML = `<h3>${name}</h3><p>💰 $${goal} / $${save} per ${unit}</p><p style="font-size:1.3rem">⏰ ${time} ${unit}${time !== 1 ? 's' : ''}</p>`;
+            };
+            window.resetLearnSaving = () => { document.getElementById('learnGoalName').value = 'New Bicycle'; document.getElementById('learnGoalAmount').value = 200; document.getElementById('learnSaveAmount').value = 20; document.querySelectorAll('.time-option').forEach(o => o.classList.remove('selected')); document.querySelector('[data-time="month"]').classList.add('selected'); document.getElementById('learnTimeUnit').value = 'month'; document.getElementById('learnSavingsResult').innerHTML = ''; };
+            // Spending game
+            let correctMap = { needs: ['food', 'water', 'shelter', 'medicine', 'education', 'electricity', 'doctor', 'clothes'], wants: ['toys', 'videoGames', 'designerShoes', 'movieTicket', 'iceCream', 'gamingConsole', 'phone'] };
+            function initLearnDraggables() {
+                let cont = document.getElementById('draggableContainer');
+                if (!cont) return;
+                cont.innerHTML = '';
+                let items = ['Food', 'Toys', 'Clothes', 'Video Games', 'Medicine', 'Designer Shoes', 'Water', 'Shelter', 'Movie Ticket', 'Education', 'Electricity', 'Ice Cream', 'Phone', 'Gaming Console', 'Doctor Visit'];
+                let ids = ['food', 'toys', 'clothes', 'videoGames', 'medicine', 'designerShoes', 'water', 'shelter', 'movieTicket', 'education', 'electricity', 'iceCream', 'phone', 'gamingConsole', 'doctor'];
+                items.forEach((txt, i) => { let d = document.createElement('div'); d.className = 'draggable'; d.draggable = true; d.id = ids[i]; d.textContent = txt; d.ondragstart = drag; cont.appendChild(d); });
+            }
+            window.allowDrop = (e) => e.preventDefault();
+            window.drag = (e) => e.dataTransfer.setData('text', e.target.id);
+            window.drop = (e) => { e.preventDefault(); let id = e.dataTransfer.getData('text'); let el = document.getElementById(id); if (el.parentElement.classList.contains('item-box')) el.parentElement.removeChild(el); e.currentTarget.querySelector('.item-box').appendChild(el); el.classList.remove('correct', 'incorrect'); };
+            window.checkSorting = () => {
+                let correct = 0, total = 0;
+                document.querySelectorAll('#needsBox .draggable').forEach(el => { total++; if (correctMap.needs.includes(el.id)) { el.classList.add('correct'); correct++; } else el.classList.add('incorrect'); });
+                document.querySelectorAll('#wantsBox .draggable').forEach(el => { total++; if (correctMap.wants.includes(el.id)) { el.classList.add('correct'); correct++; } else el.classList.add('incorrect'); });
+                document.getElementById('sortingResult').innerHTML = `<h3>${correct}/${total} (${Math.round(correct / total * 100)}%)</h3>`;
+            };
+            window.resetSpendingGame = () => { document.getElementById('needsBox').innerHTML = ''; document.getElementById('wantsBox').innerHTML = ''; document.getElementById('sortingResult').innerHTML = ''; initLearnDraggables(); };
+            // Tree game
+            let treeMoney = 100, trees = [], selectedTreeType = null, selectedCost = 0;
+            window.initializeTreeGame = () => {
+                let grid = document.getElementById('gardenGrid'); grid.innerHTML = '';
+                for (let i = 0; i < 25; i++) { let p = document.createElement('div'); p.className = 'garden-plot'; p.dataset.plotIndex = i; p.onclick = function () { plantTree(this); }; grid.appendChild(p); }
+                updateTreeStats();
+            };
+            window.selectTreeType = (el) => { document.querySelectorAll('.tree-type').forEach(t => t.classList.remove('selected')); el.classList.add('selected'); selectedTreeType = el.dataset.type; selectedCost = +el.dataset.cost; };
+            window.plantTree = (plot) => {
+                if (!selectedTreeType) return alert('Select a tree type');
+                if (plot.classList.contains('occupied')) return alert('Plot occupied');
+                if (treeMoney < selectedCost) return alert('Not enough money');
+                treeMoney -= selectedCost; plot.classList.add('occupied'); plot.innerHTML = { apple: '🍎', orange: '🍊', money: '💰' }[selectedTreeType];
+                let income = selectedTreeType === 'apple' ? 2 : selectedTreeType === 'orange' ? 5 : 12;
+                trees.push({ type: selectedTreeType, plotIndex: plot.dataset.plotIndex, income, value: selectedCost });
+                updateTreeStats();
+            };
+            function updateTreeStats() {
+                document.getElementById('treeMoney').textContent = treeMoney;
+                document.getElementById('totalTrees').textContent = trees.length;
+                let monthly = trees.reduce((s, t) => s + t.income, 0);
+                document.getElementById('monthlyIncome').textContent = monthly;
+            }
+            window.waitOneMonth = () => { if (!trees.length) return alert('Plant trees first'); let inc = 0; trees.forEach(t => inc += t.income); treeMoney += inc; updateTreeStats(); alert(`+$${inc} this month`); };
+            window.waitOneYear = () => { for (let i = 0; i < 12; i++) waitOneMonth(); };
+            window.showSellTreeModal = () => {
+                if (!trees.length) return alert('No trees');
+                let list = document.getElementById('sellTreeList'); list.innerHTML = '<h3>Select tree to sell:</h3>';
+                trees.forEach((t, i) => { let d = document.createElement('div'); d.className = 'tree-type'; d.innerHTML = `<span>${t.type} (value $${t.value})</span><span class="tree-cost">$${t.value}</span>`; d.onclick = () => sellTree(i); list.appendChild(d); });
+                document.getElementById('sellTreeModal').style.display = 'block';
+            };
+            window.sellTree = (idx) => {
+                let t = trees[idx]; treeMoney += t.value;
+                document.querySelector(`.garden-plot[data-plot-index="${t.plotIndex}"]`).classList.remove('occupied'); trees.splice(idx, 1);
+                updateTreeStats(); closeSellTreeModal();
+            };
+            window.closeSellTreeModal = () => document.getElementById('sellTreeModal').style.display = 'none';
+            window.resetTreeGame = () => { if (confirm('Reset garden?')) { treeMoney = 100; trees = []; initializeTreeGame(); } };
+
+            // ---------- PROJECTS ----------
+            let projects = [{ id: 1, name: 'New Bicycle', description: 'Mountain bike', category: 'SAVING', goalAmount: 200, savedAmount: 120, completed: false }, { id: 2, name: 'Video Game', category: 'SPENDING', goalAmount: 60, savedAmount: 35, completed: false }];
+            let currentFilter = 'all';
+            window.renderProjects = () => {
+                let grid = document.getElementById('projectsGrid'); grid.innerHTML = '';
+                let filtered = projects.filter(p => currentFilter === 'all' ? true : currentFilter === 'active' ? !p.completed : p.completed);
+                filtered.forEach(p => {
+                    let progress = (p.savedAmount / p.goalAmount) * 100;
+                    let card = document.createElement('div'); card.className = 'project-card';
+                    card.innerHTML = `<div class="project-header"><h3>${p.name}</h3><span class="project-category">${p.category}</span></div><p>${p.description || ''}</p><div class="progress-info"><span>$${p.savedAmount}</span><span>$${p.goalAmount}</span></div><div class="progress-bar"><div class="progress-fill" style="width:${progress}%"></div></div><div class="project-actions"><button class="action-btn edit-btn" onclick="showEditProjectModal(${p.id})">Edit</button><button class="action-btn delete-btn" onclick="deleteProject(${p.id})">Delete</button></div>`;
+                    grid.appendChild(card);
+                });
+                updateEmptyState();
+            };
+            window.updateEmptyState = () => { let filtered = projects.filter(p => currentFilter === 'all' ? true : currentFilter === 'active' ? !p.completed : p.completed); document.getElementById('emptyState').style.display = filtered.length ? 'none' : 'block'; };
+            window.showAddProjectModal = () => { document.getElementById('addProjectModal').style.display = 'flex'; };
+            window.closeAddProjectModal = () => { document.getElementById('addProjectModal').style.display = 'none'; };
+            window.selectProjectCategory = (el) => { document.querySelectorAll('.category-option').forEach(o => o.classList.remove('selected')); el.classList.add('selected'); document.getElementById('projectCategoryInput').value = el.dataset.category; };
+            document.getElementById('projectForm').addEventListener('submit', (e) => { e.preventDefault(); let name = document.getElementById('projectNameInput').value, desc = document.getElementById('projectDescInput').value, cat = document.getElementById('projectCategoryInput').value, goal = +document.getElementById('projectGoalAmount').value, saved = +document.getElementById('projectSavedAmount').value; if (!cat) return alert('Select category'); projects.push({ id: Date.now(), name, description: desc, category: cat, goalAmount: goal, savedAmount: saved, completed: saved >= goal }); renderProjects(); closeAddProjectModal(); });
+            window.showEditProjectModal = (id) => { let p = projects.find(x => x.id === id); if (!p) return; document.getElementById('editProjectId').value = p.id; document.getElementById('editProjectNameInput').value = p.name; document.getElementById('editGoalAmount').value = p.goalAmount; document.getElementById('editSavedAmount').value = p.savedAmount; document.getElementById('editProjectModal').style.display = 'flex'; };
+            window.closeEditProjectModal = () => document.getElementById('editProjectModal').style.display = 'none';
+            window.adjustMoney = (action) => { let amt = +document.getElementById('adjustAmount').value; let savedInput = document.getElementById('editSavedAmount'); let cur = +savedInput.value; if (!amt) return; if (action === 'add') savedInput.value = cur + amt; else savedInput.value = Math.max(0, cur - amt); };
+            document.getElementById('editProjectForm').addEventListener('submit', (e) => { e.preventDefault(); let id = +document.getElementById('editProjectId').value; let p = projects.find(x => x.id === id); if (p) { p.name = document.getElementById('editProjectNameInput').value; p.goalAmount = +document.getElementById('editGoalAmount').value; p.savedAmount = +document.getElementById('editSavedAmount').value; p.completed = p.savedAmount >= p.goalAmount; } renderProjects(); closeEditProjectModal(); });
+            window.deleteProject = (id) => { if (confirm('Delete?')) { projects = projects.filter(p => p.id !== id); renderProjects(); } };
+            document.querySelectorAll('.filter-btn').forEach(b => b.addEventListener('click', function () { document.querySelectorAll('.filter-btn').forEach(x => x.classList.remove('active')); this.classList.add('active'); currentFilter = this.dataset.filter; renderProjects(); }));
+            // AI
+            window.sendAIMessage = () => { let inp = document.getElementById('aiInput'); let msg = inp.value.trim(); if (!msg) return; let chat = document.getElementById('aiChat'); chat.innerHTML += `<div class="message user-message">${msg}</div>`; inp.value = ''; setTimeout(() => { let reply = "I can help with your projects! Try asking about saving tips."; chat.innerHTML += `<div class="message ai-message">${reply}</div>`; chat.scrollTop = chat.scrollHeight; }, 500); };
+            // Notifications
+            window.showNotification = (title, text, detail) => { document.getElementById('notificationTitle').textContent = title; document.getElementById('notificationText').textContent = text; document.getElementById('notification').setAttribute('data-detail', detail); document.getElementById('notification').classList.add('show'); };
+            window.closeNotification = () => document.getElementById('notification').classList.remove('show');
+            window.showNotificationDetail = () => { let det = document.getElementById('notification').getAttribute('data-detail'); document.getElementById('notificationModalContent').innerHTML = det; document.getElementById('notificationModal').style.display = 'flex'; closeNotification(); };
+            window.closeNotificationModal = () => document.getElementById('notificationModal').style.display = 'none';
+
+            // ---------- SIGN IN ----------
+            window.switchAuthTab = (tab) => { document.getElementById('signin-tab').classList.toggle('active', tab === 'signin'); document.getElementById('signup-tab').classList.toggle('active', tab === 'signup'); document.getElementById('signin-form').style.display = tab === 'signin' ? 'block' : 'none'; document.getElementById('signup-form').style.display = tab === 'signup' ? 'block' : 'none'; };
+            window.togglePassword = (id) => { let f = document.getElementById(id); f.type = f.type === 'password' ? 'text' : 'password'; };
+            document.getElementById('signin-form').addEventListener('submit', (e) => { e.preventDefault(); alert('Sign in demo'); });
+            document.getElementById('signup-form').addEventListener('submit', (e) => { e.preventDefault(); alert('Account created (demo)'); });
+
+            // Close modals on outside click
+            window.addEventListener('click', (e) => { if (e.target.classList.contains('game-modal')) e.target.style.display = 'none'; if (e.target === document.getElementById('contactModal')) closeContact(); });
+            // Init
+            window.onload = () => { switchPage('home'); initLearnDraggables(); };
+        })();
+    </script>
+</body>
+
+</html>
+```
